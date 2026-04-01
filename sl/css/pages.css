@@ -1,0 +1,164 @@
+/* ══ PAGES CSS ══ */
+
+/* ── LAYANAN ── */
+.layanan-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+.layanan-card {
+  background:var(--white); border-radius:12px; padding:28px 24px;
+  border:1px solid var(--light2); transition:var(--trans);
+}
+.layanan-card:hover { border-color:var(--border); box-shadow:var(--shadow2); transform:translateY(-4px); }
+.lc-icon { font-size:32px; margin-bottom:16px; }
+.lc-name { font-family:'Outfit',sans-serif; font-size:18px; font-weight:700; color:var(--dark); margin-bottom:8px; }
+.lc-desc { font-size:13.5px; color:var(--muted); line-height:1.75; margin-bottom:18px; }
+.lc-harga { font-size:13px; font-weight:700; color:var(--gold); background:rgba(200,168,75,.08); padding:6px 12px; border-radius:6px; display:inline-block; }
+
+.proses-section { background:var(--dark); padding:96px 5%; }
+.proses-section .sec-title { color:var(--white); }
+.proses-section .sec-sub { color:rgba(255,255,255,.45); }
+.proses-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:2px; margin-top:48px; }
+.proses-card { background:var(--dark2); padding:28px 20px; border:1px solid rgba(200,168,75,.06); text-align:center; }
+.proses-num { font-family:'Outfit',sans-serif; font-size:36px; font-weight:800; background:linear-gradient(135deg,var(--gold),var(--gold2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; line-height:1; margin-bottom:12px; }
+.proses-title { font-family:'Outfit',sans-serif; font-size:14px; font-weight:700; color:var(--white); margin-bottom:6px; }
+.proses-desc { font-size:12px; color:rgba(255,255,255,.4); line-height:1.6; }
+
+/* ── GALERI ── */
+.filter-bar { display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin-bottom:40px; }
+.filter-btn {
+  padding:8px 18px; border-radius:20px; font-size:12.5px; font-weight:600;
+  border:1.5px solid var(--light2); background:var(--white); color:var(--muted);
+  cursor:pointer; transition:var(--trans);
+}
+.filter-btn.active,.filter-btn:hover { border-color:var(--gold); color:var(--gold); background:rgba(200,168,75,.06); }
+.galeri-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+.galeri-item {
+  aspect-ratio:4/3; border-radius:10px; overflow:hidden;
+  position:relative; cursor:pointer; background:var(--dark3);
+}
+.galeri-item img { width:100%; height:100%; object-fit:cover; transition:transform .4s; }
+.galeri-item:hover img { transform:scale(1.06); }
+.galeri-overlay {
+  position:absolute; inset:0;
+  background:linear-gradient(to top,rgba(15,17,23,.75) 0%,transparent 55%);
+  opacity:0; transition:.3s; display:flex; align-items:flex-end; padding:16px;
+}
+.galeri-item:hover .galeri-overlay { opacity:1; }
+.galeri-label { font-size:13px; font-weight:600; color:var(--white); }
+.galeri-kat { font-size:10.5px; color:var(--gold2); letter-spacing:1px; text-transform:uppercase; }
+.galeri-placeholder { width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; color:rgba(255,255,255,.25); font-size:12px; background:var(--dark2); }
+.galeri-placeholder span:first-child { font-size:36px; }
+
+/* ── HARGA ── */
+.harga-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+.harga-card {
+  background:var(--white); border-radius:14px; padding:32px 26px;
+  border:1.5px solid var(--light2); transition:var(--trans); position:relative;
+}
+.harga-card:hover { border-color:var(--border); box-shadow:var(--shadow2); transform:translateY(-4px); }
+.harga-card.featured { border-color:var(--gold); background:var(--dark); }
+.harga-card.featured .hc-name { color:var(--white); }
+.harga-card.featured .hc-fitur li { color:rgba(255,255,255,.65); }
+.hc-badge {
+  position:absolute; top:-12px; left:50%; transform:translateX(-50%);
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  color:var(--dark); font-size:10px; font-weight:800; letter-spacing:1px;
+  text-transform:uppercase; padding:4px 16px; border-radius:20px;
+}
+.hc-name { font-family:'Outfit',sans-serif; font-size:19px; font-weight:700; color:var(--dark); margin-bottom:6px; }
+.hc-price {
+  font-family:'Outfit',sans-serif; font-size:34px; font-weight:800;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  line-height:1; margin-bottom:4px;
+}
+.hc-sat { font-size:13px; color:var(--muted); margin-bottom:20px; }
+.hc-divider { height:1px; background:var(--light2); margin:20px 0; }
+.harga-card.featured .hc-divider { background:rgba(255,255,255,.1); }
+.hc-fitur { list-style:none; display:flex; flex-direction:column; gap:9px; margin-bottom:24px; }
+.hc-fitur li { font-size:13px; color:var(--muted); display:flex; gap:8px; align-items:flex-start; }
+.hc-fitur li::before { content:'✓'; color:var(--gold); font-weight:700; flex-shrink:0; }
+.harga-card.featured .hc-fitur li::before { color:var(--gold2); }
+
+/* ── KONTAK ── */
+.kontak-grid { display:grid; grid-template-columns:1fr 1.2fr; gap:56px; align-items:start; }
+.kc-list { display:flex; flex-direction:column; gap:14px; margin-top:24px; }
+.kc {
+  display:flex; gap:14px; align-items:flex-start;
+  padding:16px; border-radius:10px;
+  background:var(--white); border:1px solid var(--light2);
+}
+.kc-icon { font-size:20px; flex-shrink:0; width:36px; text-align:center; }
+.kc-lbl { font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--muted2); margin-bottom:3px; }
+.kc-val { font-size:13.5px; font-weight:500; color:var(--dark); }
+.sosmed-row { display:flex; gap:8px; margin-top:20px; }
+.sosmed-pill { padding:8px 14px; border-radius:8px; font-size:12px; font-weight:600; background:var(--white); border:1px solid var(--light2); color:var(--muted); transition:var(--trans); }
+.sosmed-pill:hover { border-color:var(--gold); color:var(--gold); }
+
+/* ORDER FORM */
+.order-form { background:var(--white); border-radius:14px; padding:36px; border:1px solid var(--light2); }
+.order-form h3 { font-family:'Outfit',sans-serif; font-size:22px; font-weight:700; color:var(--dark); margin-bottom:6px; }
+.order-form p { font-size:13.5px; color:var(--muted); margin-bottom:24px; }
+.form-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.fg { display:flex; flex-direction:column; gap:6px; margin-bottom:14px; }
+.fg label { font-size:12px; font-weight:600; color:var(--dark); letter-spacing:.3px; }
+.fg input,.fg select,.fg textarea {
+  padding:11px 14px; border-radius:8px;
+  border:1.5px solid var(--light2); background:var(--light);
+  font-size:13.5px; color:var(--dark); outline:none; transition:var(--trans);
+  font-family:'Inter',sans-serif;
+}
+.fg input:focus,.fg select:focus,.fg textarea:focus { border-color:var(--gold); background:var(--white); }
+.fg textarea { resize:vertical; min-height:90px; }
+.btn-submit {
+  width:100%; padding:13px; border-radius:9px;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  color:var(--dark); font-size:14.5px; font-weight:700;
+  border:none; cursor:pointer; transition:var(--trans);
+  display:flex; align-items:center; justify-content:center; gap:8px;
+  box-shadow:0 4px 16px rgba(200,168,75,.3);
+}
+.btn-submit:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(200,168,75,.4); }
+.btn-submit:disabled { opacity:.6; cursor:not-allowed; transform:none; }
+.spinner { width:16px; height:16px; border:2px solid rgba(15,17,23,.15); border-top-color:var(--dark); border-radius:50%; animation:spin .6s linear infinite; }
+@keyframes spin { to { transform:rotate(360deg); } }
+.form-success { text-align:center; padding:40px 20px; }
+.form-success .check { font-size:48px; margin-bottom:14px; }
+.form-success h4 { font-family:'Outfit',sans-serif; font-size:20px; font-weight:700; color:var(--dark); margin-bottom:8px; }
+.form-success p { font-size:13.5px; color:var(--muted); margin-bottom:20px; }
+
+/* ── TENTANG ── */
+.about-grid { display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center; }
+.about-img { border-radius:14px; overflow:hidden; aspect-ratio:4/3; background:var(--dark2); }
+.about-img img { width:100%; height:100%; object-fit:cover; }
+.ms-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:20px; margin-top:40px; }
+.ms-card { background:var(--white); border-radius:12px; padding:22px; border:1px solid var(--light2); text-align:center; }
+.ms-num { font-family:'Outfit',sans-serif; font-size:28px; font-weight:800; background:linear-gradient(135deg,var(--gold),var(--gold2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.ms-lbl { font-size:12px; color:var(--muted); margin-top:4px; }
+.team-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+.team-card { background:var(--white); border-radius:12px; padding:24px; border:1px solid var(--light2); text-align:center; transition:var(--trans); }
+.team-card:hover { border-color:var(--border); box-shadow:var(--shadow); transform:translateY(-3px); }
+.team-avatar { width:72px; height:72px; border-radius:50%; margin:0 auto 14px; background:linear-gradient(135deg,var(--gold),var(--gold2)); display:flex; align-items:center; justify-content:center; font-family:'Outfit',sans-serif; font-size:24px; font-weight:700; color:var(--dark); }
+.team-name { font-family:'Outfit',sans-serif; font-size:16px; font-weight:700; color:var(--dark); margin-bottom:4px; }
+.team-role { font-size:12px; color:var(--gold); font-weight:600; margin-bottom:8px; }
+.team-bio { font-size:12.5px; color:var(--muted); line-height:1.6; }
+
+/* ── RESPONSIVE ── */
+@media(max-width:1024px) {
+  .layanan-grid { grid-template-columns:repeat(2,1fr); }
+  .proses-grid { grid-template-columns:repeat(3,1fr); }
+  .harga-grid { grid-template-columns:repeat(2,1fr); }
+  .kontak-grid { grid-template-columns:1fr; gap:32px; }
+  .about-grid { grid-template-columns:1fr; gap:36px; }
+}
+@media(max-width:768px) {
+  .layanan-grid { grid-template-columns:1fr; }
+  .galeri-grid { grid-template-columns:repeat(2,1fr); }
+  .harga-grid { grid-template-columns:1fr; }
+  .proses-grid { grid-template-columns:repeat(2,1fr); }
+  .team-grid { grid-template-columns:repeat(2,1fr); }
+  .form-row { grid-template-columns:1fr; }
+}
+@media(max-width:480px) {
+  .galeri-grid { grid-template-columns:1fr; }
+  .team-grid { grid-template-columns:1fr; }
+  .ms-grid { grid-template-columns:1fr 1fr; }
+}

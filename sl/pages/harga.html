@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Harga – Sariaji Logam</title>
+<link rel="stylesheet" href="../css/style.css"/>
+<link rel="stylesheet" href="../css/animate.css"/>
+<link rel="stylesheet" href="../css/pages.css"/>
+</head>
+<body>
+<div id="nav-root"></div>
+
+<div class="page-hero">
+  <div class="page-hero-content">
+    <div class="breadcrumb"><a href="../index.html">Beranda</a> / <span>Harga</span></div>
+    <h1>Paket <span class="gold-text gold-shimmer">Harga</span></h1>
+    <p>Harga transparan tanpa biaya tersembunyi. Konsultasi gratis sebelum deal.</p>
+  </div>
+</div>
+
+<section style="background:var(--light)">
+  <div class="sec-head center reveal">
+    <div class="tag">Investasi Terbaik</div>
+    <h2 class="sec-title">Daftar Harga Layanan</h2>
+    <p class="sec-sub">Harga sudah termasuk material, pengerjaan, dan garansi. Survei lokasi gratis.</p>
+  </div>
+  <div class="harga-grid stagger-children" id="hargaGrid"></div>
+  <div style="text-align:center;margin-top:40px;padding:24px;background:var(--white);border-radius:12px;border:1px solid var(--light2)" class="reveal">
+    <p style="font-size:14px;color:var(--muted);margin-bottom:16px">💡 Harga dapat berubah sesuai spesifikasi material dan kesulitan pengerjaan. Hubungi kami untuk penawaran terbaik.</p>
+    <a href="kontak.html" class="btn btn-gold">Minta Penawaran Gratis</a>
+  </div>
+</section>
+
+<div id="footer-root"></div>
+<script src="../js/app.js"></script>
+<script>
+document.getElementById('nav-root').innerHTML    = renderNavbar('harga','../');
+document.getElementById('footer-root').innerHTML = renderFooter('../');
+
+const harga = Store.get('harga');
+document.getElementById('hargaGrid').innerHTML = harga.map(h=>`
+  <div class="harga-card${h.unggulan?' featured':''} reveal">
+    ${h.unggulan?'<div class="hc-badge">⭐ Terpopuler</div>':''}
+    <div class="hc-name">${h.nama}</div>
+    <div class="hc-price">${h.harga==='Nego'?'Nego':'Rp '+Number(h.harga).toLocaleString('id-ID')}</div>
+    <div class="hc-sat">${h.satuan||'hubungi kami'}</div>
+    <div class="hc-divider"></div>
+    <ul class="hc-fitur">${h.fitur.map(f=>`<li>${f}</li>`).join('')}</ul>
+    <a href="kontak.html" class="btn ${h.unggulan?'btn-gold':'btn-ghost'}" style="width:100%;justify-content:center">Pesan Sekarang</a>
+  </div>`).join('');
+
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+</script>
+<script src="js/animate.js"></script>
+<script src="../js/animate.js"></script>
+</body>
+</html>

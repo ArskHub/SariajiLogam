@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Kontak – Sariaji Logam</title>
+<link rel="stylesheet" href="../css/style.css"/>
+<link rel="stylesheet" href="../css/animate.css"/>
+<link rel="stylesheet" href="../css/pages.css"/>
+</head>
+<body>
+<div id="nav-root"></div>
+
+<div class="page-hero">
+  <div class="page-hero-content">
+    <div class="breadcrumb"><a href="../index.html">Beranda</a> / <span>Kontak</span></div>
+    <h1>Hubungi <span class="gold-text gold-shimmer">Kami</span></h1>
+    <p>Konsultasi gratis, tanpa kewajiban. Kami siap membantu Anda.</p>
+  </div>
+</div>
+
+<section style="background:var(--light)">
+  <div class="kontak-grid">
+    <div>
+      <div class="tag">Reach Us</div>
+      <h2 class="sec-title">Informasi<br>Kontak</h2>
+      <p style="font-size:13.5px;color:var(--muted);margin-top:8px;line-height:1.7">Kami siap melayani Senin–Sabtu. Hubungi via WhatsApp untuk respons lebih cepat.</p>
+      <div class="kc-list" id="kcList"></div>
+      <div class="sosmed-row" id="sosmedRow"></div>
+      <div style="margin-top:28px;border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(15,17,23,.1)">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7890.299536231312!2d115.12327974676799!3d-8.581595230432125!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd239eb7565d52b%3A0x7806059076174962!2sSariaji%20Logam!5e0!3m2!1sen!2sid!4v1772530484784!5m2!1sen!2sid"
+          width="100%" height="260" style="border:0;display:block"
+          allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+    </div>
+
+    <div class="order-form">
+      <div id="formSuccess" class="form-success" style="display:none">
+        <div class="check">✅</div>
+        <h4>Pesanan Terkirim!</h4>
+        <p>Data Anda sudah masuk. Tim kami akan menghubungi via WhatsApp segera.</p>
+        <button onclick="resetForm()" class="btn btn-gold">+ Kirim Pesanan Lain</button>
+      </div>
+      <div id="formBody">
+        <h3>Order & Konsultasi</h3>
+        <p>Isi form di bawah — data tersimpan otomatis & kami hubungi via WhatsApp.</p>
+        <div class="form-row">
+          <div class="fg"><label>Nama Lengkap *</label><input type="text" id="fNama" placeholder="Nama Anda"/></div>
+          <div class="fg"><label>No. WhatsApp *</label><input type="tel" id="fHP" placeholder="08xx-xxxx-xxxx"/></div>
+        </div>
+        <div class="fg"><label>Email</label><input type="email" id="fEmail" placeholder="email@anda.com"/></div>
+        <div class="fg"><label>Jenis Layanan *</label>
+          <select id="fLayanan">
+            <option value="">-- Pilih Layanan --</option>
+            <option>Konstruksi Baja</option>
+            <option>Kanopi & Tenda</option>
+            <option>Pagar & Tralis</option>
+            <option>Rolling Door</option>
+            <option>Pintu Besi / Harmonika</option>
+            <option>Las & Fabrikasi Custom</option>
+            <option>Lainnya</option>
+          </select>
+        </div>
+        <div class="fg"><label>Lokasi Proyek</label><input type="text" id="fLokasi" placeholder="Alamat / area proyek Anda"/></div>
+        <div class="fg"><label>Keterangan Proyek</label><textarea id="fPesan" placeholder="Ceritakan kebutuhan Anda: ukuran, desain, jumlah, dll."></textarea></div>
+        <button class="btn-submit" id="btnKirim" onclick="kirimPesanan()">
+          <span id="btnIcon">📨</span>
+          <span id="btnText">Kirim Pesanan</span>
+        </button>
+        <p style="text-align:center;font-size:11.5px;color:var(--muted2);margin-top:12px" id="waInfo"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="footer-root"></div>
+<script src="../js/app.js"></script>
+<script>
+document.getElementById('nav-root').innerHTML    = renderNavbar('kontak','../');
+document.getElementById('footer-root').innerHTML = renderFooter('../');
+
+const info = Store.get('info');
+
+document.getElementById('kcList').innerHTML = `
+  <div class="kc"><div class="kc-icon">📍</div><div><div class="kc-lbl">Alamat Bengkel</div><div class="kc-val">${info.alamat}</div></div></div>
+  <div class="kc"><div class="kc-icon">📱</div><div><div class="kc-lbl">WhatsApp / Telepon</div><div class="kc-val">+${info.wa}</div></div></div>
+  <div class="kc"><div class="kc-icon">✉️</div><div><div class="kc-lbl">Email</div><div class="kc-val">${info.email}</div></div></div>
+  <div class="kc"><div class="kc-icon">🕐</div><div><div class="kc-lbl">Jam Operasional</div><div class="kc-val">${info.jam}</div></div></div>`;
+
+document.getElementById('sosmedRow').innerHTML = `
+  <a href="${info.fb}" class="sosmed-pill">📘 Facebook</a>
+  <a href="${info.ig}" class="sosmed-pill">📸 Instagram</a>
+  <a href="${info.yt}" class="sosmed-pill">▶️ YouTube</a>`;
+
+document.getElementById('waInfo').textContent = `Atau langsung WA: +${info.wa}`;
+
+async function kirimPesanan() {
+  const nama    = document.getElementById('fNama').value.trim();
+  const hp      = document.getElementById('fHP').value.trim();
+  const email   = document.getElementById('fEmail').value.trim();
+  const layanan = document.getElementById('fLayanan').value;
+  const lokasi  = document.getElementById('fLokasi').value.trim();
+  const pesan   = document.getElementById('fPesan').value.trim();
+
+  if (!nama||!hp||!layanan) { alert('Mohon lengkapi nama, nomor HP, dan jenis layanan.'); return; }
+
+  const btn = document.getElementById('btnKirim');
+  btn.disabled = true;
+  document.getElementById('btnIcon').innerHTML = '<span class="spinner"></span>';
+  document.getElementById('btnText').textContent = 'Mengirim...';
+
+  const now = new Date();
+  const tgl = now.toLocaleDateString('id-ID',{day:'2-digit',month:'2-digit',year:'numeric'}) + ' ' + now.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
+
+  // Simpan ke localStorage dulu
+  const pesanan = Store.get('pesanan') || [];
+  const newOrder = { id: Date.now(), tanggal:tgl, nama, hp, email, layanan, lokasi, keterangan:pesan, status:'Menunggu' };
+  pesanan.push(newOrder);
+  Store.set('pesanan', pesanan);
+
+  // Kirim ke Google Sheets
+  try {
+    await fetch(SHEETS_URL, {
+      method:'POST', mode:'no-cors',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ tanggal:tgl, nama, hp, email, layanan, lokasi, keterangan:pesan })
+    });
+  } catch(e) { console.log('Sheets error:', e); }
+
+  // Sukses
+  document.getElementById('formBody').style.display = 'none';
+  document.getElementById('formSuccess').style.display = 'block';
+
+  // Buka WA
+  const msg = `Halo Sariaji Logam! 👋\n\n*Nama:* ${nama}\n*No. HP:* ${hp}\n*Layanan:* ${layanan}\n*Lokasi:* ${lokasi||'-'}\n*Keterangan:* ${pesan||'-'}`;
+  setTimeout(()=>window.open(`https://wa.me/${info.wa}?text=${encodeURIComponent(msg)}`,'_blank'), 800);
+}
+
+function resetForm() {
+  ['fNama','fHP','fEmail','fLokasi','fPesan'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('fLayanan').value='';
+  document.getElementById('formSuccess').style.display='none';
+  document.getElementById('formBody').style.display='block';
+  const btn=document.getElementById('btnKirim');
+  btn.disabled=false;
+  document.getElementById('btnIcon').textContent='📨';
+  document.getElementById('btnText').textContent='Kirim Pesanan';
+}
+</script>
+<script src="js/animate.js"></script>
+<script src="../js/animate.js"></script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Login Admin – Sariaji Logam</title>
+<link rel="stylesheet" href="../css/admin.css"/>
+<link rel="stylesheet" href="../css/animate.css"/>
+</head>
+<body>
+<div class="login-page">
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="login-logo-mark">⚙</div>
+      <h2>Admin Panel</h2>
+      <p>Sariaji Logam Management</p>
+    </div>
+    <div class="login-err" id="loginErr">Username atau password salah.</div>
+    <div class="lfg"><label>Username</label><input type="text" id="uname" placeholder="admin" onkeydown="if(event.key==='Enter')doLogin()"/></div>
+    <div class="lfg"><label>Password</label><input type="password" id="pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"/></div>
+    <button class="login-btn" onclick="doLogin()">Masuk →</button>
+    <p style="text-align:center;font-size:11px;color:rgba(255,255,255,.2);margin-top:18px"><a href="../index.html" style="color:rgba(200,168,75,.5)">← Kembali ke website</a></p>
+  </div>
+</div>
+<script>
+function doLogin(){
+  const u=document.getElementById('uname').value;
+  const p=document.getElementById('pass').value;
+  if(u==='admin'&&p==='admin123'){
+    sessionStorage.setItem('sl_admin','1');
+    window.location.href='dashboard.html';
+  } else {
+    document.getElementById('loginErr').classList.add('show');
+    document.getElementById('pass').value='';
+  }
+}
+if(sessionStorage.getItem('sl_admin')) window.location.href='dashboard.html';
+</script>
+<script src="../js/animate.js"></script>
+</body>
+</html>

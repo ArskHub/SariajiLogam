@@ -1,0 +1,462 @@
+/* ═══════════════════════════════════════════════════
+   SARIAJI LOGAM — Elegant Animation System
+   animate.css
+═══════════════════════════════════════════════════ */
+
+/* ── KEYFRAMES ── */
+
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(28px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@keyframes fadeDown {
+  from { opacity:0; transform:translateY(-20px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@keyframes fadeLeft {
+  from { opacity:0; transform:translateX(32px); }
+  to   { opacity:1; transform:translateX(0); }
+}
+@keyframes fadeRight {
+  from { opacity:0; transform:translateX(-32px); }
+  to   { opacity:1; transform:translateX(0); }
+}
+@keyframes scaleFade {
+  from { opacity:0; transform:scale(.92); }
+  to   { opacity:1; transform:scale(1); }
+}
+@keyframes lineGrow {
+  from { transform:scaleX(0); }
+  to   { transform:scaleX(1); }
+}
+@keyframes numberCount {
+  from { opacity:0; transform:translateY(12px) scale(.9); }
+  to   { opacity:1; transform:translateY(0) scale(1); }
+}
+@keyframes shimmer {
+  0%   { background-position:-200% center; }
+  100% { background-position: 200% center; }
+}
+@keyframes float {
+  0%,100% { transform:translateY(0); }
+  50%     { transform:translateY(-8px); }
+}
+@keyframes pulseGold {
+  0%,100% { box-shadow:0 0 0 0 rgba(200,168,75,0); }
+  50%     { box-shadow:0 0 0 10px rgba(200,168,75,.12); }
+}
+@keyframes revealMask {
+  from { clip-path:inset(0 100% 0 0); }
+  to   { clip-path:inset(0 0% 0 0); }
+}
+@keyframes gradientShift {
+  0%   { background-position:0% 50%; }
+  50%  { background-position:100% 50%; }
+  100% { background-position:0% 50%; }
+}
+@keyframes rotateIn {
+  from { opacity:0; transform:rotate(-8deg) scale(.9); }
+  to   { opacity:1; transform:rotate(0) scale(1); }
+}
+@keyframes borderDraw {
+  from { opacity:0; transform:scaleX(0); transform-origin:left; }
+  to   { opacity:1; transform:scaleX(1); }
+}
+@keyframes waPulse {
+  0%,100% { box-shadow:0 4px 20px rgba(37,211,102,.4); }
+  50%     { box-shadow:0 4px 32px rgba(37,211,102,.7), 0 0 0 8px rgba(37,211,102,.08); }
+}
+@keyframes navSlide {
+  from { opacity:0; transform:translateY(-12px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@keyframes heroLine {
+  from { width:0; opacity:0; }
+  to   { width:60px; opacity:1; }
+}
+@keyframes badgePop {
+  0%   { opacity:0; transform:scale(.7) translateY(-8px); }
+  70%  { transform:scale(1.05) translateY(2px); }
+  100% { opacity:1; transform:scale(1) translateY(0); }
+}
+@keyframes typewriter {
+  from { width:0; }
+  to   { width:100%; }
+}
+@keyframes cursorBlink {
+  0%,100% { border-right-color:var(--gold); }
+  50%     { border-right-color:transparent; }
+}
+@keyframes goldLine {
+  from { transform:scaleX(0); transform-origin:left; }
+  to   { transform:scaleX(1); transform-origin:left; }
+}
+@keyframes staggerFadeUp {
+  from { opacity:0; transform:translateY(20px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@keyframes imgReveal {
+  from { clip-path:polygon(0 100%, 100% 100%, 100% 100%, 0 100%); }
+  to   { clip-path:polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+}
+@keyframes counterUp {
+  from { opacity:0; transform:translateY(100%); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@keyframes sparkle {
+  0%,100% { opacity:0; transform:scale(0) rotate(0deg); }
+  50%     { opacity:1; transform:scale(1) rotate(180deg); }
+}
+
+
+/* ── SCROLL REVEAL CLASSES ── */
+
+.reveal {
+  opacity:0;
+  transition: opacity .7s cubic-bezier(.22,1,.36,1),
+              transform .7s cubic-bezier(.22,1,.36,1);
+}
+.reveal.from-up     { transform:translateY(36px); }
+.reveal.from-down   { transform:translateY(-24px); }
+.reveal.from-left   { transform:translateX(-36px); }
+.reveal.from-right  { transform:translateX(36px); }
+.reveal.from-scale  { transform:scale(.88); }
+.reveal.visible {
+  opacity:1;
+  transform:none;
+}
+
+/* Stagger delays */
+.reveal.d1 { transition-delay:.05s; }
+.reveal.d2 { transition-delay:.12s; }
+.reveal.d3 { transition-delay:.19s; }
+.reveal.d4 { transition-delay:.26s; }
+.reveal.d5 { transition-delay:.33s; }
+.reveal.d6 { transition-delay:.40s; }
+
+
+/* ── HERO ENTRANCE SEQUENCE ── */
+
+.hero-badge  { animation:badgePop .7s .1s cubic-bezier(.34,1.56,.64,1) both; }
+.hero h1     { animation:fadeUp .8s .2s cubic-bezier(.22,1,.36,1) both; }
+.hero-desc   { animation:fadeUp .7s .38s cubic-bezier(.22,1,.36,1) both; }
+.hero-actions{ animation:fadeUp .7s .5s cubic-bezier(.22,1,.36,1) both; }
+.hero-stats  { animation:fadeUp .7s .62s cubic-bezier(.22,1,.36,1) both; }
+.hero-visual { animation:scaleFade 1s .3s cubic-bezier(.22,1,.36,1) both; }
+
+/* Navbar */
+#navbar { animation:navSlide .5s .05s cubic-bezier(.22,1,.36,1) both; }
+
+/* Hero stat numbers - floating */
+.hero-stat-num {
+  display:inline-block;
+  animation:float 4s ease-in-out infinite;
+}
+.hero-stat:nth-child(2) .hero-stat-num { animation-delay:.8s; }
+.hero-stat:nth-child(3) .hero-stat-num { animation-delay:1.6s; }
+
+
+/* ── GOLD SHIMMER TEXT ── */
+.gold-shimmer {
+  background:linear-gradient(
+    90deg,
+    var(--gold) 0%,
+    var(--gold3) 35%,
+    var(--gold) 50%,
+    var(--gold3) 65%,
+    var(--gold) 100%
+  );
+  background-size:200% auto;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  animation:shimmer 3.5s linear infinite;
+}
+
+
+/* ── HOVER EFFECTS ── */
+
+/* Cards lift */
+.why-card,.layanan-card,.ts-card,.harga-card,.sv-card,.team-card {
+  transition:
+    transform .35s cubic-bezier(.22,1,.36,1),
+    box-shadow .35s cubic-bezier(.22,1,.36,1),
+    border-color .25s ease;
+}
+.why-card:hover    { transform:translateY(-6px) scale(1.01); }
+.layanan-card:hover{ transform:translateY(-6px); }
+.ts-card:hover     { transform:translateY(-4px); }
+.harga-card:hover:not(.featured) { transform:translateY(-6px); }
+.team-card:hover   { transform:translateY(-5px); }
+
+/* Gallery zoom */
+.mg-item,.galeri-item {
+  overflow:hidden;
+  transition:transform .25s ease;
+}
+.mg-item img,.galeri-item img {
+  transition:transform .55s cubic-bezier(.22,1,.36,1);
+  will-change:transform;
+}
+.mg-item:hover img,.galeri-item:hover img {
+  transform:scale(1.08);
+}
+
+/* Button press effect */
+.btn {
+  transition:
+    transform .22s cubic-bezier(.34,1.56,.64,1),
+    box-shadow .22s ease,
+    background .2s ease;
+}
+.btn:active { transform:scale(.96) !important; }
+
+/* Nav link underline slide */
+.nb-link { position:relative; overflow:hidden; }
+.nb-link::after {
+  content:'';
+  position:absolute; bottom:4px; left:14px; right:14px;
+  height:1.5px;
+  background:var(--gold);
+  transform:scaleX(0);
+  transform-origin:right;
+  transition:transform .28s cubic-bezier(.22,1,.36,1);
+}
+.nb-link:hover::after,.nb-link.active::after {
+  transform:scaleX(1);
+  transform-origin:left;
+}
+
+
+/* ── PAGE HERO DECORATIVE LINE ── */
+.page-hero-content h1::after {
+  content:'';
+  display:block;
+  height:2px;
+  width:60px;
+  background:linear-gradient(90deg,var(--gold),transparent);
+  margin:16px auto 0;
+  animation:goldLine .8s .5s cubic-bezier(.22,1,.36,1) both;
+}
+
+
+/* ── SECTION ENTRANCE (scroll triggered) ── */
+.sec-head .tag { overflow:hidden; }
+.sec-head.visible .tag {
+  animation:fadeRight .6s cubic-bezier(.22,1,.36,1) both;
+}
+.sec-head.visible h2 {
+  animation:fadeUp .7s .1s cubic-bezier(.22,1,.36,1) both;
+}
+.sec-head.visible .sec-sub {
+  animation:fadeUp .7s .2s cubic-bezier(.22,1,.36,1) both;
+}
+
+
+/* ── COUNTER ANIMATION ── */
+.stat-num-anim {
+  display:inline-block;
+  animation:counterUp .6s cubic-bezier(.22,1,.36,1) both;
+}
+
+
+/* ── GALERI FILTER BUTTONS ── */
+.filter-btn {
+  transition:
+    background .22s ease,
+    border-color .22s ease,
+    color .22s ease,
+    transform .18s cubic-bezier(.34,1.56,.64,1);
+}
+.filter-btn:hover  { transform:translateY(-2px); }
+.filter-btn.active { animation:badgePop .4s cubic-bezier(.34,1.56,.64,1); }
+
+
+/* ── FORM FOCUS ── */
+.fg input:focus,.fg select:focus,.fg textarea:focus {
+  transition:border-color .2s ease, box-shadow .2s ease;
+  box-shadow:0 0 0 3px rgba(200,168,75,.12);
+}
+.mfg input:focus,.mfg select:focus,.mfg textarea:focus {
+  box-shadow:0 0 0 3px rgba(200,168,75,.12);
+}
+
+
+/* ── FOOTER LINK HOVER ── */
+.footer-links a {
+  transition:color .2s ease, transform .2s ease;
+  display:inline-block;
+}
+.footer-links a:hover { transform:translateX(4px); }
+
+
+/* ── WA FLOAT ── */
+.wa-float {
+  animation:waPulse 2.5s ease-in-out infinite;
+}
+.wa-float:hover { transform:scale(1.04) translateY(-2px); }
+
+
+/* ── SOCIAL ICON ── */
+.social-icon {
+  transition:transform .22s cubic-bezier(.34,1.56,.64,1), background .2s ease;
+}
+.social-icon:hover { transform:translateY(-3px) scale(1.1); }
+
+
+/* ── CTA BAND ── */
+.cta-band {
+  background-size:200% 200%;
+  animation:gradientShift 6s ease infinite;
+  background-image:linear-gradient(
+    135deg,
+    var(--gold) 0%,
+    var(--gold2) 40%,
+    #d4a017 60%,
+    var(--gold2) 80%,
+    var(--gold) 100%
+  );
+}
+
+
+/* ── PAGE TRANSITION ── */
+.page-enter {
+  animation:scaleFade .5s cubic-bezier(.22,1,.36,1) both;
+}
+
+
+/* ── ADMIN TOAST ── */
+.toast {
+  transition:transform .35s cubic-bezier(.34,1.56,.64,1), opacity .3s ease !important;
+}
+
+
+/* ── MODAL OPEN ── */
+.modal-overlay.open .modal {
+  animation:scaleFade .35s cubic-bezier(.34,1.56,.64,1) both;
+}
+
+
+/* ── LOADING SKELETON ── */
+.skeleton {
+  background:linear-gradient(90deg, rgba(255,255,255,.04) 25%, rgba(255,255,255,.09) 50%, rgba(255,255,255,.04) 75%);
+  background-size:200% 100%;
+  animation:shimmer 1.5s infinite;
+  border-radius:6px;
+}
+
+
+/* ── COUNTER JS HOOK ── */
+[data-count] { font-variant-numeric:tabular-nums; }
+
+
+/* ── REDUCED MOTION ── */
+@media (prefers-reduced-motion: reduce) {
+  *,*::before,*::after {
+    animation-duration:.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.01ms !important;
+  }
+}
+
+
+/* ═══════════════════════════════════════════
+   CARD BORDER GLOW ANIMATIONS
+   Garis emas berputar mengelilingi card saat hover
+═══════════════════════════════════════════ */
+
+/* Register CSS custom property agar bisa dianimasikan */
+@property --angle  { syntax:'<angle>'; initial-value:0deg; inherits:false; }
+@property --angle2 { syntax:'<angle>'; initial-value:0deg; inherits:false; }
+@property --angle3 { syntax:'<angle>'; initial-value:0deg; inherits:false; }
+
+@keyframes borderRotate  { to { --angle:  360deg; } }
+@keyframes borderRotate2 { to { --angle2: 360deg; } }
+@keyframes borderRotate3 { to { --angle3: 360deg; } }
+
+/* Mixin base — garis emas berputar */
+.why-card, .ts-card, .layanan-card,
+.harga-card:not(.featured), .team-card, .kc {
+  position:relative; overflow:hidden;
+}
+.why-card::before, .ts-card::before, .layanan-card::before,
+.harga-card:not(.featured)::before, .team-card::before, .kc::before {
+  content:''; position:absolute; inset:-1.5px; z-index:0;
+  border-radius:inherit;
+  background:conic-gradient(
+    from var(--angle, 0deg),
+    transparent 0deg, transparent 65deg,
+    rgba(200,168,75,.7) 120deg,
+    rgba(242,200,100,1) 180deg,
+    rgba(200,168,75,.7) 240deg,
+    transparent 295deg, transparent 360deg
+  );
+  opacity:0; transition:opacity .32s ease;
+}
+/* Inner fill tetap warna asli */
+.why-card::after, .ts-card::after, .layanan-card::after,
+.harga-card:not(.featured)::after, .team-card::after, .kc::after {
+  content:''; position:absolute; inset:1.5px; z-index:1; border-radius:calc(var(--radius) - 1.5px);
+}
+.why-card::after, .team-card::after    { background:var(--white); }
+.ts-card::after                         { background:var(--light); }
+.layanan-card::after                    { background:var(--white); }
+.harga-card:not(.featured)::after       { background:var(--white); border-radius:calc(14px - 1.5px); }
+.kc::after                              { background:var(--white); }
+
+/* Angkat semua anak di atas pseudo */
+.why-card > *, .ts-card > *, .layanan-card > *,
+.harga-card:not(.featured) > *, .team-card > *, .kc > * { position:relative; z-index:2; }
+
+/* Trigger on hover */
+.why-card:hover::before, .ts-card:hover::before,
+.layanan-card:hover::before, .harga-card:not(.featured):hover::before,
+.team-card:hover::before, .kc:hover::before {
+  opacity:1; animation:borderRotate 2.6s linear infinite;
+}
+
+/* Service cards (dark bg) */
+.sv-card { position:relative; overflow:hidden; }
+.sv-card::before {
+  content:''; position:absolute; inset:-1.5px; z-index:0;
+  background:conic-gradient(
+    from var(--angle, 0deg),
+    transparent 0deg, transparent 65deg,
+    rgba(200,168,75,.55) 120deg,
+    rgba(242,200,100,.8) 180deg,
+    rgba(200,168,75,.55) 240deg,
+    transparent 295deg, transparent 360deg
+  );
+  opacity:0; transition:opacity .32s ease;
+}
+.sv-card::after { content:''; position:absolute; inset:1.5px; z-index:1; background:var(--dark2); }
+.sv-card > *    { position:relative; z-index:2; }
+.sv-card:hover::before { opacity:1; animation:borderRotate 2.8s linear infinite; }
+
+/* Gallery items */
+.mg-item, .galeri-item { position:relative; }
+.mg-item::after, .galeri-item::after {
+  content:''; position:absolute; inset:0; z-index:4;
+  border-radius:inherit; pointer-events:none;
+  box-shadow:inset 0 0 0 0 rgba(200,168,75,0);
+  transition:box-shadow .35s ease;
+}
+.mg-item:hover::after, .galeri-item:hover::after {
+  box-shadow:inset 0 0 0 2px rgba(200,168,75,.7);
+  animation:galeriGlow 2s ease-in-out infinite;
+}
+@keyframes galeriGlow {
+  0%,100% { box-shadow:inset 0 0 0 2px rgba(200,168,75,.6); }
+  50%     { box-shadow:inset 0 0 0 2px rgba(242,200,100,1); }
+}
+
+/* Featured harga card — static living glow */
+.harga-card.featured {
+  border-color:var(--gold);
+  animation:featuredGlow 3s ease-in-out infinite;
+}
+@keyframes featuredGlow {
+  0%,100% { box-shadow:0 0 0 1px var(--gold), 0 0 20px rgba(200,168,75,.18), 0 12px 48px rgba(15,17,23,.14); }
+  50%     { box-shadow:0 0 0 2px var(--gold2), 0 0 36px rgba(200,168,75,.38), 0 12px 48px rgba(15,17,23,.14); }
+}
+
