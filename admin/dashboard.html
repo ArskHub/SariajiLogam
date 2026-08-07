@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Dashboard – Sariaji Logam Admin</title>
+<link rel="stylesheet" href="../css/admin.css"/>
+<link rel="stylesheet" href="../css/animate.css"/>
+</head>
+<body>
+<aside class="sidebar" id="sidebar">
+  <div class="sb-logo">
+    <div class="sb-logo-mark">⚙</div>
+    <div class="sb-logo-text">Sariaji Logam<small>Admin Panel</small></div>
+  </div>
+  <nav class="sb-nav">
+    <div class="sb-section">Main</div>
+    <div class="sb-item active" onclick="showPanel('dashboard',this)"><span class="sb-icon">📊</span> Dashboard</div>
+    <div class="sb-item" onclick="showPanel('pesanan',this)"><span class="sb-icon">📋</span> Pesanan Masuk</div>
+    <div class="sb-section">Konten</div>
+    <div class="sb-item" onclick="showPanel('galeri',this)"><span class="sb-icon">🖼️</span> Kelola Galeri</div>
+    <div class="sb-item" onclick="showPanel('layanan',this)"><span class="sb-icon">🔧</span> Kelola Layanan</div>
+    <div class="sb-item" onclick="showPanel('harga',this)"><span class="sb-icon">💰</span> Kelola Harga</div>
+    <div class="sb-section">Pengaturan</div>
+    <div class="sb-item" onclick="showPanel('profil',this)"><span class="sb-icon">🏢</span> Info Bisnis</div>
+    <div class="sb-item" onclick="showPanel('akun',this)"><span class="sb-icon">👤</span> Akun Admin</div>
+  </nav>
+  <div class="sb-footer">
+    <div class="sb-user">
+      <div class="sb-avatar">A</div>
+      <div><div class="sb-uname">Admin</div><div class="sb-urole">Administrator</div></div>
+      <button class="sb-logout" onclick="logout()">Keluar</button>
+    </div>
+  </div>
+</aside>
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-title" id="topbarTitle">Dashboard</div>
+    <div class="topbar-right"><a href="../index.html" target="_blank" class="view-site-btn">🌐 Lihat Website</a></div>
+  </div>
+  <div class="content">
+
+    <!-- DASHBOARD -->
+    <div class="panel active" id="p-dashboard">
+      <div class="stat-grid">
+        <div class="stat-card"><div class="stat-label">Total Pesanan</div><div class="stat-num" id="stTotal" style="color:var(--gold)">0</div></div>
+        <div class="stat-card"><div class="stat-label">Menunggu</div><div class="stat-num" id="stWait" style="color:#f97316">0</div></div>
+        <div class="stat-card"><div class="stat-label">Selesai</div><div class="stat-num" id="stDone" style="color:#22c55e">0</div></div>
+        <div class="stat-card"><div class="stat-label">Item Galeri</div><div class="stat-num" id="stGal" style="color:#3b82f6">0</div></div>
+      </div>
+      <div class="table-wrap">
+        <div class="table-head"><h3>Pesanan Terbaru</h3><button class="add-btn" onclick="showPanel('pesanan')">Lihat Semua →</button></div>
+        <table><thead><tr><th>Tanggal</th><th>Nama</th><th>Layanan</th><th>Status</th></tr></thead><tbody id="dashPesanan"></tbody></table>
+      </div>
+    </div>
+
+    <!-- PESANAN -->
+    <div class="panel" id="p-pesanan">
+      <div class="table-wrap">
+        <div class="table-head">
+          <h3>Semua Pesanan</h3>
+          <div class="table-tools">
+            <input class="search-input" placeholder="Cari..." oninput="filterQ=this.value;renderPesanan()" id="searchPesanan"/>
+            <select class="search-input" style="width:130px" onchange="filterS=this.value;renderPesanan()">
+              <option value="">Semua Status</option>
+              <option>Menunggu</option><option>Diproses</option><option>Selesai</option><option>Batal</option>
+            </select>
+            <button class="add-btn" onclick="exportCSV()">⬇ Export</button>
+          </div>
+        </div>
+        <table><thead><tr><th>#</th><th>Tanggal</th><th>Nama</th><th>HP</th><th>Layanan</th><th>Status</th><th>Aksi</th></tr></thead><tbody id="tblPesanan"></tbody></table>
+        <div class="empty-state" id="emptyPesanan" style="display:none"><div>📭</div><p>Belum ada pesanan.</p></div>
+      </div>
+    </div>
+
+    <!-- GALERI -->
+    <div class="panel" id="p-galeri">
+      <div class="table-wrap">
+        <div class="table-head"><h3>Kelola Galeri</h3><button class="add-btn" onclick="openGaleriModal()">+ Tambah Foto</button></div>
+        <table><thead><tr><th>Preview</th><th>Judul</th><th>Kategori</th><th>Aksi</th></tr></thead><tbody id="tblGaleri"></tbody></table>
+        <div class="empty-state" id="emptyGaleri" style="display:none"><div>🖼️</div><p>Belum ada foto.</p></div>
+      </div>
+    </div>
+
+    <!-- LAYANAN -->
+    <div class="panel" id="p-layanan">
+      <div class="table-wrap">
+        <div class="table-head"><h3>Kelola Layanan</h3><button class="add-btn" onclick="openLayananModal()">+ Tambah</button></div>
+        <table><thead><tr><th>Icon</th><th>Nama</th><th>Harga</th><th>Status</th><th>Aksi</th></tr></thead><tbody id="tblLayanan"></tbody></table>
+      </div>
+    </div>
+
+    <!-- HARGA -->
+    <div class="panel" id="p-harga">
+      <div class="table-wrap">
+        <div class="table-head"><h3>Kelola Harga</h3><button class="add-btn" onclick="openHargaModal()">+ Tambah</button></div>
+        <table><thead><tr><th>Nama</th><th>Harga</th><th>Satuan</th><th>Unggulan</th><th>Aksi</th></tr></thead><tbody id="tblHarga"></tbody></table>
+      </div>
+    </div>
+
+    <!-- PROFIL -->
+    <div class="panel" id="p-profil">
+      <div style="background:var(--dark2);border-radius:12px;padding:28px;border:1px solid rgba(255,255,255,.05)">
+        <h3 style="font-family:'Outfit',sans-serif;font-size:17px;font-weight:700;margin-bottom:20px">Informasi Bisnis</h3>
+        <div class="settings-grid">
+          <div class="sfg"><label>Nama Bisnis</label><input id="sNama"/></div>
+          <div class="sfg"><label>Tagline</label><input id="sTagline"/></div>
+          <div class="sfg"><label>No. WhatsApp (tanpa +)</label><input id="sWa"/></div>
+          <div class="sfg"><label>Email</label><input id="sEmail"/></div>
+          <div class="sfg full"><label>Alamat</label><input id="sAlamat"/></div>
+          <div class="sfg full"><label>Jam Operasional</label><input id="sJam"/></div>
+          <div class="sfg"><label>Facebook URL</label><input id="sFb"/></div>
+          <div class="sfg"><label>Instagram URL</label><input id="sIg"/></div>
+          <div class="sfg full"><label>YouTube URL</label><input id="sYt"/></div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:20px">
+          <button class="btn-save" onclick="saveProfil()">💾 Simpan</button>
+          <button class="btn-cancel" onclick="loadProfil()">↩ Reset</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- AKUN -->
+    <div class="panel" id="p-akun">
+      <div style="background:var(--dark2);border-radius:12px;padding:28px;max-width:420px;border:1px solid rgba(255,255,255,.05)">
+        <h3 style="font-family:'Outfit',sans-serif;font-size:17px;font-weight:700;margin-bottom:20px">Ganti Password</h3>
+        <div class="sfg"><label>Password Lama</label><input type="password" id="passLama"/></div>
+        <div class="sfg"><label>Password Baru</label><input type="password" id="passBaru"/></div>
+        <div class="sfg"><label>Konfirmasi Baru</label><input type="password" id="passKonfirm"/></div>
+        <button class="btn-save" style="margin-top:16px" onclick="gantiPassword()">🔑 Ganti Password</button>
+        <p style="font-size:11.5px;color:var(--muted);margin-top:14px">Default: <strong style="color:var(--gold)">admin / admin123</strong></p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- MODALS -->
+<div class="modal-overlay" id="galeriModal">
+  <div class="modal">
+    <h3 id="galeriModalTitle">Tambah Foto</h3>
+    <input type="hidden" id="galeriId"/>
+    <div class="mfg"><label>Judul *</label><input id="galeriJudul" placeholder="Kanopi Carport Modern"/></div>
+    <div class="mfg"><label>Kategori *</label>
+      <select id="galeriKat">
+        <option value="konstruksi">Konstruksi</option><option value="kanopi">Kanopi</option>
+        <option value="pagar">Pagar</option><option value="rolling">Rolling Door</option>
+        <option value="pintu">Pintu</option><option value="tralis">Tralis</option><option value="custom">Custom</option>
+      </select>
+    </div>
+    <div class="mfg"><label>URL Gambar *</label><input id="galeriImg" placeholder="https://..." oninput="prevImg(this.value)"/></div>
+    <img id="imgPrev" style="display:none;width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:8px;margin-top:6px;border:1px solid rgba(255,255,255,.08)" alt="preview"/>
+    <div class="modal-btns"><button class="btn-cancel" onclick="closeM('galeriModal')">Batal</button><button class="btn-save" onclick="saveGaleri()">Simpan</button></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="layananModal">
+  <div class="modal">
+    <h3 id="layananModalTitle">Tambah Layanan</h3>
+    <input type="hidden" id="layananId"/>
+    <div class="mfg"><label>Icon (emoji)</label><input id="layananIcon" placeholder="🔧" maxlength="4"/></div>
+    <div class="mfg"><label>Nama Layanan *</label><input id="layananNama"/></div>
+    <div class="mfg"><label>Deskripsi *</label><textarea id="layananDesc"></textarea></div>
+    <div class="mfg"><label>Harga</label><input id="layananHarga" placeholder="Rp 600.000/m²"/></div>
+    <div class="modal-btns"><button class="btn-cancel" onclick="closeM('layananModal')">Batal</button><button class="btn-save" onclick="saveLayanan()">Simpan</button></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="hargaModal">
+  <div class="modal">
+    <h3 id="hargaModalTitle">Tambah Paket Harga</h3>
+    <input type="hidden" id="hargaId"/>
+    <div class="mfg"><label>Nama Paket *</label><input id="hargaNama"/></div>
+    <div class="mfg"><label>Harga * (angka atau "Nego")</label><input id="hargaHarga"/></div>
+    <div class="mfg"><label>Satuan (/m², /unit, dll)</label><input id="hargaSatuan"/></div>
+    <div class="mfg"><label>Fitur (pisah koma)</label><textarea id="hargaFitur"></textarea></div>
+    <div class="mfg" style="flex-direction:row;align-items:center;gap:10px">
+      <input type="checkbox" id="hargaUnggulan" style="width:16px;height:16px;accent-color:var(--gold)"/>
+      <label for="hargaUnggulan" style="font-size:13px;cursor:pointer">Tandai sebagai paket unggulan</label>
+    </div>
+    <div class="modal-btns"><button class="btn-cancel" onclick="closeM('hargaModal')">Batal</button><button class="btn-save" onclick="saveHarga()">Simpan</button></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="../js/app.js"></script>
+<script>
+if(!sessionStorage.getItem('sl_admin')) window.location.href='login.html';
+function logout(){ sessionStorage.removeItem('sl_admin'); window.location.href='login.html'; }
+
+const titles={dashboard:'Dashboard',pesanan:'Pesanan Masuk',galeri:'Kelola Galeri',layanan:'Kelola Layanan',harga:'Kelola Harga',profil:'Info Bisnis',akun:'Akun Admin'};
+function showPanel(id,el){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.sb-item').forEach(i=>i.classList.remove('active'));
+  document.getElementById('p-'+id).classList.add('active');
+  if(el) el.classList.add('active');
+  document.getElementById('topbarTitle').textContent=titles[id]||id;
+  if(id==='dashboard') renderDash();
+  if(id==='pesanan')   renderPesanan();
+  if(id==='galeri')    renderGaleri();
+  if(id==='layanan')   renderLayanan();
+  if(id==='harga')     renderHarga();
+  if(id==='profil')    loadProfil();
+}
+
+function toast(msg,type='success'){
+  const t=document.getElementById('toast');
+  t.textContent=(type==='success'?'✅ ':'❌ ')+msg;
+  t.className=`toast show ${type}`;
+  setTimeout(()=>t.classList.remove('show'),2800);
+}
+function closeM(id){document.getElementById(id).classList.remove('open');}
+function openM(id){document.getElementById(id).classList.add('open');}
+document.querySelectorAll('.modal-overlay').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open');}));
+
+function badgeCls(s){return s==='Menunggu'?'badge-wait':s==='Diproses'?'badge-proc':s==='Selesai'?'badge-done':'badge-cancel';}
+
+// DASHBOARD
+function renderDash(){
+  const p=Store.get('pesanan')||[],g=Store.get('galeri')||[];
+  document.getElementById('stTotal').textContent=p.length;
+  document.getElementById('stWait').textContent=p.filter(x=>x.status==='Menunggu').length;
+  document.getElementById('stDone').textContent=p.filter(x=>x.status==='Selesai').length;
+  document.getElementById('stGal').textContent=g.length;
+  const recent=p.slice(-5).reverse();
+  document.getElementById('dashPesanan').innerHTML=recent.length?recent.map(x=>`<tr><td>${x.tanggal||'-'}</td><td><strong>${x.nama}</strong></td><td>${x.layanan}</td><td><span class="badge ${badgeCls(x.status)}">${x.status}</span></td></tr>`).join(''):`<tr><td colspan="4" style="text-align:center;padding:28px;color:var(--muted)">Belum ada pesanan</td></tr>`;
+}
+
+// PESANAN
+let filterQ='',filterS='';
+function renderPesanan(){
+  const all=Store.get('pesanan')||[];
+  const list=all.filter(p=>{
+    const mq=!filterQ||p.nama.toLowerCase().includes(filterQ.toLowerCase())||p.layanan.toLowerCase().includes(filterQ.toLowerCase());
+    const ms=!filterS||p.status===filterS;
+    return mq&&ms;
+  });
+  const tb=document.getElementById('tblPesanan'),em=document.getElementById('emptyPesanan');
+  if(!list.length){tb.innerHTML='';em.style.display='block';return;}
+  em.style.display='none';
+  tb.innerHTML=list.map((p,i)=>`<tr>
+    <td style="color:var(--muted)">${i+1}</td>
+    <td style="font-size:11.5px;color:var(--muted)">${p.tanggal||'-'}</td>
+    <td><strong>${p.nama}</strong><br><span style="font-size:11px;color:var(--muted)">${p.hp}</span></td>
+    <td>${p.hp}</td>
+    <td>${p.layanan}</td>
+    <td><select class="search-input" style="width:110px;padding:5px 8px;font-size:11.5px" onchange="setStatus(${p.id},this.value)">
+      ${['Menunggu','Diproses','Selesai','Batal'].map(s=>`<option${p.status===s?' selected':''}>${s}</option>`).join('')}
+    </select></td>
+    <td><div style="display:flex;gap:6px">
+      <button class="act-btn act-edit" onclick="detailOrder(${p.id})">Detail</button>
+      <button class="act-btn act-del" onclick="delOrder(${p.id})">Hapus</button>
+    </div></td>
+  </tr>`).join('');
+}
+function setStatus(id,s){const a=Store.get('pesanan')||[];const i=a.findIndex(p=>p.id===id);if(i>=0){a[i].status=s;Store.set('pesanan',a);toast('Status diperbarui');renderDash();}}
+function delOrder(id){if(!confirm('Hapus pesanan?'))return;Store.set('pesanan',(Store.get('pesanan')||[]).filter(p=>p.id!==id));renderPesanan();toast('Pesanan dihapus');}
+function detailOrder(id){const p=(Store.get('pesanan')||[]).find(p=>p.id===id);if(p)alert(`Nama: ${p.nama}\nHP: ${p.hp}\nEmail: ${p.email||'-'}\nLayanan: ${p.layanan}\nLokasi: ${p.lokasi||'-'}\nCatatan: ${p.keterangan||'-'}\nStatus: ${p.status}`);}
+function exportCSV(){
+  const a=Store.get('pesanan')||[];
+  if(!a.length){toast('Tidak ada data','error');return;}
+  const h=['No','Tanggal','Nama','HP','Email','Layanan','Lokasi','Keterangan','Status'];
+  const r=a.map((p,i)=>[i+1,p.tanggal,p.nama,p.hp,p.email,p.layanan,p.lokasi,p.keterangan,p.status].map(v=>`"${v||''}"`).join(','));
+  const csv=[h.join(','),...r].join('\n');
+  const b=new Blob([csv],{type:'text/csv'});
+  const u=URL.createObjectURL(b);
+  const el=document.createElement('a');el.href=u;el.download='pesanan.csv';el.click();
+  toast('CSV diexport');
+}
+
+// GALERI
+function renderGaleri(){
+  const g=Store.get('galeri')||[],tb=document.getElementById('tblGaleri'),em=document.getElementById('emptyGaleri');
+  if(!g.length){tb.innerHTML='';em.style.display='block';return;}
+  em.style.display='none';
+  tb.innerHTML=g.map(x=>`<tr>
+    <td><img src="${x.img}" style="width:70px;height:48px;object-fit:cover;border-radius:6px" onerror="this.style.opacity=.3"/></td>
+    <td><strong>${x.judul}</strong></td>
+    <td><span class="badge badge-active" style="text-transform:capitalize">${x.kategori}</span></td>
+    <td><div style="display:flex;gap:6px">
+      <button class="act-btn act-edit" onclick="editGaleri(${x.id})">Edit</button>
+      <button class="act-btn act-del" onclick="delGaleri(${x.id})">Hapus</button>
+    </div></td>
+  </tr>`).join('');
+}
+function openGaleriModal(){
+  ['galeriId','galeriJudul','galeriImg'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('galeriKat').value='konstruksi';
+  document.getElementById('imgPrev').style.display='none';
+  document.getElementById('galeriModalTitle').textContent='Tambah Foto';
+  openM('galeriModal');
+}
+function editGaleri(id){
+  const g=(Store.get('galeri')||[]).find(x=>x.id===id);if(!g)return;
+  document.getElementById('galeriId').value=g.id;
+  document.getElementById('galeriJudul').value=g.judul;
+  document.getElementById('galeriKat').value=g.kategori;
+  document.getElementById('galeriImg').value=g.img||'';
+  prevImg(g.img||'');
+  document.getElementById('galeriModalTitle').textContent='Edit Foto';
+  openM('galeriModal');
+}
+function prevImg(url){const i=document.getElementById('imgPrev');if(url){i.src=url;i.style.display='block';}else i.style.display='none';}
+function saveGaleri(){
+  const id=document.getElementById('galeriId').value;
+  const judul=document.getElementById('galeriJudul').value.trim();
+  const kat=document.getElementById('galeriKat').value;
+  const img=document.getElementById('galeriImg').value.trim();
+  if(!judul||!img){toast('Judul & URL wajib diisi','error');return;}
+  const g=Store.get('galeri')||[];
+  if(id){const i=g.findIndex(x=>x.id==id);if(i>=0)g[i]={...g[i],judul,kategori:kat,img};}
+  else g.push({id:Date.now(),judul,kategori:kat,img});
+  Store.set('galeri',g);closeM('galeriModal');renderGaleri();toast(id?'Foto diperbarui':'Foto ditambahkan');
+}
+function delGaleri(id){if(!confirm('Hapus foto?'))return;Store.set('galeri',(Store.get('galeri')||[]).filter(x=>x.id!==id));renderGaleri();toast('Foto dihapus');}
+
+// LAYANAN
+function renderLayanan(){
+  const l=Store.get('layanan')||[];
+  document.getElementById('tblLayanan').innerHTML=l.map(x=>`<tr>
+    <td style="font-size:24px">${x.icon}</td>
+    <td><strong>${x.nama}</strong><br><span style="font-size:12px;color:var(--muted)">${x.desc.substring(0,45)}...</span></td>
+    <td style="color:var(--gold);font-size:13px;font-weight:600">${x.harga}</td>
+    <td><span class="badge ${x.aktif?'badge-active':'badge-off'}">${x.aktif?'Aktif':'Nonaktif'}</span></td>
+    <td><div style="display:flex;gap:6px">
+      <button class="act-btn act-toggle" onclick="toggleL(${x.id})">${x.aktif?'Nonaktifkan':'Aktifkan'}</button>
+      <button class="act-btn act-edit" onclick="editLayanan(${x.id})">Edit</button>
+      <button class="act-btn act-del" onclick="delLayanan(${x.id})">Hapus</button>
+    </div></td>
+  </tr>`).join('');
+}
+function openLayananModal(){
+  ['layananId','layananIcon','layananNama','layananDesc','layananHarga'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('layananModalTitle').textContent='Tambah Layanan';
+  openM('layananModal');
+}
+function editLayanan(id){
+  const l=(Store.get('layanan')||[]).find(x=>x.id===id);if(!l)return;
+  document.getElementById('layananId').value=l.id;
+  document.getElementById('layananIcon').value=l.icon;
+  document.getElementById('layananNama').value=l.nama;
+  document.getElementById('layananDesc').value=l.desc;
+  document.getElementById('layananHarga').value=l.harga;
+  document.getElementById('layananModalTitle').textContent='Edit Layanan';
+  openM('layananModal');
+}
+function saveLayanan(){
+  const id=document.getElementById('layananId').value;
+  const icon=document.getElementById('layananIcon').value.trim()||'🔧';
+  const nama=document.getElementById('layananNama').value.trim();
+  const desc=document.getElementById('layananDesc').value.trim();
+  const harga=document.getElementById('layananHarga').value.trim();
+  if(!nama||!desc){toast('Nama & deskripsi wajib diisi','error');return;}
+  const l=Store.get('layanan')||[];
+  if(id){const i=l.findIndex(x=>x.id==id);if(i>=0)l[i]={...l[i],icon,nama,desc,harga};}
+  else l.push({id:Date.now(),icon,nama,desc,harga,aktif:true});
+  Store.set('layanan',l);closeM('layananModal');renderLayanan();toast(id?'Layanan diperbarui':'Layanan ditambahkan');
+}
+function toggleL(id){const l=Store.get('layanan')||[];const i=l.findIndex(x=>x.id===id);if(i>=0){l[i].aktif=!l[i].aktif;Store.set('layanan',l);renderLayanan();toast('Status diubah');}}
+function delLayanan(id){if(!confirm('Hapus layanan?'))return;Store.set('layanan',(Store.get('layanan')||[]).filter(x=>x.id!==id));renderLayanan();toast('Layanan dihapus');}
+
+// HARGA
+function renderHarga(){
+  const h=Store.get('harga')||[];
+  document.getElementById('tblHarga').innerHTML=h.map(x=>`<tr>
+    <td><strong>${x.nama}</strong></td>
+    <td style="color:var(--gold);font-weight:700">${x.harga==='Nego'?'Nego':'Rp '+Number(x.harga).toLocaleString('id-ID')}</td>
+    <td style="color:var(--muted);font-size:12.5px">${x.satuan||'-'}</td>
+    <td><span class="badge ${x.unggulan?'badge-active':'badge-off'}">${x.unggulan?'⭐ Unggulan':'Biasa'}</span></td>
+    <td><div style="display:flex;gap:6px">
+      <button class="act-btn act-toggle" onclick="setUnggulan(${x.id})">${x.unggulan?'Unset':'Set Unggulan'}</button>
+      <button class="act-btn act-edit" onclick="editHarga(${x.id})">Edit</button>
+      <button class="act-btn act-del" onclick="delHarga(${x.id})">Hapus</button>
+    </div></td>
+  </tr>`).join('');
+}
+function openHargaModal(){
+  ['hargaId','hargaNama','hargaHarga','hargaSatuan','hargaFitur'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('hargaUnggulan').checked=false;
+  document.getElementById('hargaModalTitle').textContent='Tambah Paket';
+  openM('hargaModal');
+}
+function editHarga(id){
+  const h=(Store.get('harga')||[]).find(x=>x.id===id);if(!h)return;
+  document.getElementById('hargaId').value=h.id;
+  document.getElementById('hargaNama').value=h.nama;
+  document.getElementById('hargaHarga').value=h.harga;
+  document.getElementById('hargaSatuan').value=h.satuan||'';
+  document.getElementById('hargaFitur').value=(h.fitur||[]).join(', ');
+  document.getElementById('hargaUnggulan').checked=h.unggulan;
+  document.getElementById('hargaModalTitle').textContent='Edit Paket';
+  openM('hargaModal');
+}
+function saveHarga(){
+  const id=document.getElementById('hargaId').value;
+  const nama=document.getElementById('hargaNama').value.trim();
+  const harga=document.getElementById('hargaHarga').value.trim();
+  const satuan=document.getElementById('hargaSatuan').value.trim();
+  const fitur=document.getElementById('hargaFitur').value.trim().split(',').map(f=>f.trim()).filter(Boolean);
+  const unggulan=document.getElementById('hargaUnggulan').checked;
+  if(!nama||!harga){toast('Nama & harga wajib diisi','error');return;}
+  const l=Store.get('harga')||[];
+  if(unggulan)l.forEach(h=>h.unggulan=false);
+  if(id){const i=l.findIndex(x=>x.id==id);if(i>=0)l[i]={...l[i],nama,harga,satuan,fitur,unggulan};}
+  else l.push({id:Date.now(),nama,harga,satuan,fitur,unggulan});
+  Store.set('harga',l);closeM('hargaModal');renderHarga();toast(id?'Harga diperbarui':'Paket ditambahkan');
+}
+function setUnggulan(id){const l=Store.get('harga')||[];l.forEach(h=>h.unggulan=false);const i=l.findIndex(x=>x.id===id);if(i>=0){l[i].unggulan=true;Store.set('harga',l);renderHarga();toast('Unggulan diset');}}
+function delHarga(id){if(!confirm('Hapus paket?'))return;Store.set('harga',(Store.get('harga')||[]).filter(x=>x.id!==id));renderHarga();toast('Paket dihapus');}
+
+// PROFIL
+function loadProfil(){
+  const i=Store.get('info');
+  document.getElementById('sNama').value=i.nama||'';document.getElementById('sTagline').value=i.tagline||'';
+  document.getElementById('sWa').value=i.wa||'';document.getElementById('sEmail').value=i.email||'';
+  document.getElementById('sAlamat').value=i.alamat||'';document.getElementById('sJam').value=i.jam||'';
+  document.getElementById('sFb').value=i.fb||'';document.getElementById('sIg').value=i.ig||'';document.getElementById('sYt').value=i.yt||'';
+}
+function saveProfil(){
+  const info={
+    nama:document.getElementById('sNama').value.trim(),tagline:document.getElementById('sTagline').value.trim(),
+    wa:document.getElementById('sWa').value.trim(),email:document.getElementById('sEmail').value.trim(),
+    alamat:document.getElementById('sAlamat').value.trim(),jam:document.getElementById('sJam').value.trim(),
+    fb:document.getElementById('sFb').value.trim()||'#',ig:document.getElementById('sIg').value.trim()||'#',
+    yt:document.getElementById('sYt').value.trim()||'#'
+  };
+  if(!info.nama||!info.wa){toast('Nama & WhatsApp wajib diisi','error');return;}
+  Store.set('info',info);toast('Info bisnis disimpan');
+}
+
+// AKUN
+function gantiPassword(){
+  const lama=document.getElementById('passLama').value;
+  const baru=document.getElementById('passBaru').value;
+  const konfirm=document.getElementById('passKonfirm').value;
+  const cur=localStorage.getItem('sl_admin_pass')||'admin123';
+  if(lama!==cur){toast('Password lama salah','error');return;}
+  if(baru.length<6){toast('Min 6 karakter','error');return;}
+  if(baru!==konfirm){toast('Konfirmasi tidak cocok','error');return;}
+  localStorage.setItem('sl_admin_pass',baru);
+  ['passLama','passBaru','passKonfirm'].forEach(id=>document.getElementById(id).value='');
+  toast('Password berhasil diubah');
+}
+
+renderDash();
+</script>
+<script src="../js/animate.js"></script>
+</body>
+</html>

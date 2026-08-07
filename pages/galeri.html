@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Galeri – Sariaji Logam</title>
+<link rel="stylesheet" href="../css/style.css"/>
+<link rel="stylesheet" href="../css/animate.css"/>
+<link rel="stylesheet" href="../css/pages.css"/>
+</head>
+<body>
+<div id="nav-root"></div>
+
+<div class="page-hero">
+  <div class="page-hero-content">
+    <div class="breadcrumb"><a href="../index.html">Beranda</a> / <span>Galeri</span></div>
+    <h1>Galeri <span class="gold-text gold-shimmer">Karya</span></h1>
+    <p>Koleksi foto proyek terbaik yang telah kami kerjakan.</p>
+  </div>
+</div>
+
+<section style="background:var(--light)">
+  <div class="filter-bar" id="filterBar"></div>
+  <div class="galeri-grid" id="galeriGrid"></div>
+  <div id="emptyMsg" style="display:none;text-align:center;padding:48px;color:var(--muted)">
+    <div style="font-size:40px;margin-bottom:12px">📂</div>
+    <p>Belum ada foto di kategori ini.</p>
+  </div>
+</section>
+
+<div id="footer-root"></div>
+<script src="../js/app.js"></script>
+<script>
+document.getElementById('nav-root').innerHTML    = renderNavbar('galeri','../');
+document.getElementById('footer-root').innerHTML = renderFooter('../');
+
+let activeKat = 'semua';
+const galeri  = Store.get('galeri');
+const cats    = ['semua', ...new Set(galeri.map(g=>g.kategori))];
+
+document.getElementById('filterBar').innerHTML = cats.map(c=>`
+  <button class="filter-btn${c==='semua'?' active':''}" onclick="filter('${c}')">${c.charAt(0).toUpperCase()+c.slice(1)}</button>`).join('');
+
+function filter(kat) {
+  activeKat = kat;
+  document.querySelectorAll('.filter-btn').forEach(b=>{
+    b.classList.toggle('active', b.textContent.toLowerCase()===kat);
+  });
+  const filtered = kat==='semua' ? galeri : galeri.filter(g=>g.kategori===kat);
+  const grid = document.getElementById('galeriGrid');
+  const empty = document.getElementById('emptyMsg');
+  if (!filtered.length) { grid.innerHTML=''; empty.style.display='block'; return; }
+  empty.style.display='none';
+  grid.innerHTML = filtered.map(g=>`
+    <div class="galeri-item reveal">
+      ${g.img
+        ? `<img src="${g.img}" alt="${g.judul}" loading="lazy"/>`
+        : `<div class="galeri-placeholder"><span>${['🏗️','⛺','🔒','🚪'][Math.floor(Math.random()*4)]}</span><span>${g.judul}</span></div>`
+      }
+      <div class="galeri-overlay">
+        <div><div class="galeri-label">${g.judul}</div><div class="galeri-kat">${g.kategori}</div></div>
+      </div>
+    </div>`).join('');
+  document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+}
+
+filter('semua');
+</script>
+<script src="js/animate.js"></script>
+<script src="../js/animate.js"></script>
+</body>
+</html>
